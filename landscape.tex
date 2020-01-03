@@ -18,26 +18,35 @@
 \usepackage{graphicx}
 \usepackage{listings}
 \usepackage{color}
-\usepackage[figwidth=0.98\linewidth]{todonotes}  % Dummy image (and more!)
+\usepackage[figwidth=1.0\linewidth]{todonotes}  % Dummy image (and more!)
 \usepackage[absolute, overlay]{textpos}            % Figure placement
 \setlength{\TPHorizModule}{\paperwidth}
 \setlength{\TPVertModule}{\paperheight}
 
 
+
 \title{An Interactive Web-based GIS System to Evaluate Hurricane Inundation Impacts}
 \author
 {%
-    Michael Bednarek%\inst{1}
+    Michael Bednarek \inst{1}
     \and
-    Saeed Moghimi%\inst{2}
+    Omid Alemi \inst{2}
+    \and
+    Saeed Moghimi \inst{3}
 }
 %% Optional:
-%\institute
-%{
-%    \inst{1} Department of Mathematics
-%    \and
-%    \inst{2} Department of Informatics
-%}
+\institute
+{
+    \inst{1}  Morristown Beard School (High school), 70 Whippany Rd, Morristown,
+    NJ.\\
+    \and
+    \inst{2} School of Interactive Arts and Technology, Simon Fraser University,
+    BC, Canada.\\
+    \and
+    \inst{3} NOAA National Ocean Service, Coast Survey Development Laboratory,
+    Silver Spring, MD.\\
+    
+}
 %% Or:
 %\institute{Contact information}
 
@@ -51,69 +60,122 @@
 \begin{columns}[onlytextwidth]
 
 
+
+%%% Col1
+
 \begin{column}{\textwidth/3 - 2cm}
+    
     \begin{block}{Introduction}
-        The 
+      The use of web-based geographic information systems (GIS) in a coastal
+      environment can be beneﬁcial for both coastal and scientiﬁc communities.
+      With the collection of data from numerous sources and social media (e.g.
+      FEMA API’s) and with access to model produced results for coastal
+      inundation, we can generalize and interact with models to evaluate the
+      impact of coastal events in an interactive and visual manner.
     \end{block}
 
-    \begin{block}{Collection}
-        Ramble here about where we get the data.
-        - NetCDF
-        - Models
-    \end{block}
-    
-    \begin{block}{Processing}
-        Discuss contouring and formatting.
-        In order to more easily interact and manipulate the data, it is first formatted and contoured. A collection of polygons is read from the NetCDF file which is to be converted into a more accessible format.
-        For this project the format of choice is JSON as it easy to manipulate in a multitude of languages and protocols while still supporting all necessary features.
-        
-        The NetCDF file contains only a raster of points and according elevation values.
-        For both space saving and ease of manipulation, these values are grouped and vectorized to a collection of polygons.
-        A given amount of levels is given in which a polygon may exist. A smaller level count indicates larger but fewer polygons, making a lower resolution but smaller file.
-        These polygons are then encoded into a JSON file including some general information about it's size, value, and resolution.
-        
-        The format of a contoured cache:
-        
-        \includegraphics[scale=0.6725]{screenshot1.png}
 
+    \begin{block}{System design}
+     Bellow the diagram of the complete system from data collection to
+     interaction with the user is given.
+    
+      \begin{figure}
+         \centering
+         %\hspace*{-20mm}
+         \includegraphics[scale=.9]{flowchart.png}
+         \caption{Flowchart of the system.}   
+         %\label{fig:timeseries_validation}
+      \end{figure}
+    
+    
     \end{block}
     
+        
 \end{column}
 
 
+
+%%% Col2
+
 \begin{column}{\textwidth/3 - 2cm}
-    \begin{block}{Serving}
-        Talk about protocol and API functionality.
-        A Flask web server is used to serve the compressed information created from the processing phase.
-        Flask is the library of choice here as it requires little boilerplate code to function however it still retains the functionality and documentation of other solutions.
-        Written in Python, it is easy to integrate with existing functions and libraries.
-        The server provides the computations and implementation for a number of methods of interacting with the collected data.
-        This includes transection, regional mapping, and a number of methods for interpreting the compressed polygons.
-        Originally written manually, the primary methods for interaction and calculations with polygons are done using the Shapely library.
+    
+    \begin{block}{Data collection}
+      Data from numerous sources including databases from The Federal
+      Emergency Management Agency (FEMA), social media sources such
+      as Instagram, and ﬁrst hand collected model produced data from the
+      NOAA's storm surge model results (ESTOFS), are collected to
+      be used in later stages in the system.
+    \end{block}
+    
+    
+    \begin{block}{Model data processing}
+      \begin{itemize}
+        \item A collection of nodal values for maximum water surface elevation read from
+      model generated NetCDF ﬁle.
+      \item For both space saving and ease of manipulation, these values are
+      grouped and vectorized to a collection of polygons.
+      \item The polygons were organized for a given water surface levels.
+      \item These polygons are then encoded into a
+      JSON ﬁle including some general information about it’s size, value, and
+      resolution.
+      \end{itemize}
+        
+        
+      \begin{figure}
+         \centering
+         %\hspace*{-20mm}
+         \includegraphics[scale=1.1]{screenshot1.png}
+         \caption{Water surface levels polygons and their associate
+      variables.}   
+         %\label{fig:timeseries_validation}
+      \end{figure}
+
+
+
     \end{block}
 
-    \begin{exampleblock}{Interface}
-        Talk about handling of an example such as Sandy.
-        Show images including polygons and GUI.
-        
-        \includegraphics[scale=0.6725]{screenshot.png}
-        
-    \end{exampleblock}
 \end{column}
 
 
+%%% Col2
+
 \begin{column}{\textwidth/3 - 2cm}
-    \begin{block}{Purpose}
-        Talk about purpose behind project and possible uses.
+    \begin{block}{Backend}
+     \begin{itemize}
+        \item A PostGIS server accomodates all the data generated
+        from model results and observations collected from data sources.
+
+        \item  A Flask web server is used to serve the compressed
+        information created from the data processing phase. The server provides interface to number 
+        of methods for interacting with the collected data. 
+        
+        \item The Shaply Python package is utilized to provide general
+        definitions of polygons and other geometrical objects for interacting
+        and generating transects and defining an area of interest to analys 
+        land-use in comparison with maximum surge information.
+
+     \end{itemize}
+        
     \end{block}
     
-     \begin{block}{Process}
-        Talk about development process.
+     \begin{block}{Frontend}
+        The graphical interface is written in pure HTML / JavaScript using
+        Leaflet package to provide an intuitive way of interacting with the
+        data. It allows the user to foremost graph inundation and ﬂood
+        levels, as well as transect values, select regions, and compare with 
+        land use information. 
     \end{block}
     
 
-    \begin{block}{Improvements}
-        Talk about possible future improvements for the project.
+    \begin{block}{Outlook}
+    We are planning to further develop:
+    \begin{itemize}
+  \item A more advanced polygonal area selection
+  \item A flexible colorbar UI elements
+  \item A direct NetCDF caching
+  \item Implement a seamless connection to data APIs (e.g. FEMA, NOAA) 
+\end{itemize}
+    
     \end{block}
 \end{column}
 
