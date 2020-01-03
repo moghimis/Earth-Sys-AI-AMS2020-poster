@@ -64,6 +64,7 @@
 %%% Col1
 
 \begin{column}{\textwidth/3 - 2cm}
+    
     \begin{block}{Introduction}
       The use of web-based geographic information systems (GIS) in a coastal
       environment can be beneﬁcial for both coastal and scientiﬁc communities.
@@ -73,10 +74,11 @@
       impact of coastal events in an interactive and visual manner.
     \end{block}
 
+
     \begin{block}{System design}
-       Bellow the diagram of the complete system from data collection to
-       interaction with the user is given.
-  
+     Bellow the diagram of the complete system from data collection to
+     interaction with the user is given.
+    
       \begin{figure}
          \centering
          %\hspace*{-20mm}
@@ -84,7 +86,11 @@
          \caption{Flowchart of the system.}   
          %\label{fig:timeseries_validation}
       \end{figure}
+    
+    
     \end{block}
+    
+        
 \end{column}
 
 
@@ -92,6 +98,7 @@
 %%% Col2
 
 \begin{column}{\textwidth/3 - 2cm}
+    
     \begin{block}{Data collection}
       Data from numerous sources including databases from The Federal
       Emergency Management Agency (FEMA), social media sources such
@@ -103,70 +110,75 @@
     
     \begin{block}{Model data processing}
       \begin{itemize}
-          \item A maximum water surface elevation point cloud read from
-          model NetCDF ﬁle.
-          \item the model values are grouped and vectorized to a collection of
-          polygons for various strom surge levels (to save space and ease data
-          processing).
-          \item These polygons are then encoded into a JSON ﬁle including some
-          general information about it’s size, value, and resolution.
+        \item A collection of nodal values for maximum water surface elevation read from
+      model generated NetCDF ﬁle.
+      \item For both space saving and ease of manipulation, these values are
+      grouped and vectorized to a collection of polygons.
+      \item The polygons were organized for a given water surface levels.
+      \item These polygons are then encoded into a
+      JSON ﬁle including some general information about it’s size, value, and
+      resolution.
       \end{itemize}
-    \end{block}
-
-
-    \begin{block}{Backend}
-         \begin{itemize}
-            \item A PostGIS server accomodates all the data generated
-            from model results and observations.
-            \item  A Flask web server is used to serve the compressed
-            information from database to frontend. It also provides access to number
-            of methods for interacting with the collected data.
-            \item The Shaply Python package is utilized to provide general
-            definitions of polygons and other geometrical objects for interacting
-            with data such as gnerating transects or calculating the area of
-            an inundated land-use.
-         \end{itemize}
-    \end{block}
         
-%      \begin{figure}
-%         \centering
-%         %\hspace*{-20mm}
-%         \includegraphics[scale=1.1]{screenshot1.png}
-%         \caption{Water surface levels polygons and their associate
-%      variables.}   
-%         %\label{fig:timeseries_validation}
-%      \end{figure}
+        
+      \begin{figure}
+         \centering
+         %\hspace*{-20mm}
+         \includegraphics[scale=1.1]{screenshot1.png}
+         \caption{Water surface levels polygons and their associate
+      variables.}   
+         %\label{fig:timeseries_validation}
+      \end{figure}
+
+
+
+    \end{block}
+
 \end{column}
 
 
 %%% Col2
 
 \begin{column}{\textwidth/3 - 2cm}
+    \begin{block}{Backend}
+     \begin{itemize}
+        \item A PostGIS server accomodates all the data generated
+        from model results and observations collected from data sources.
+
+        \item  A Flask web server is used to serve the compressed
+        information created from the data processing phase. The server provides interface to number 
+        of methods for interacting with the collected data. 
+        
+        \item The Shaply Python package is utilized to provide general
+        definitions of polygons and other geometrical objects for interacting
+        and generating transects and defining an area of interest to analys 
+        land-use in comparison with maximum surge information.
+
+     \end{itemize}
+        
+    \end{block}
+    
      \begin{block}{Frontend}
         The graphical interface is written in pure HTML / JavaScript using
         Leaflet package to provide an intuitive way of interacting with the
         data. It allows the user to foremost graph inundation and ﬂood
         levels, as well as transect values, select regions, and compare with 
         land use information. 
-        \begin{figure}
-           \centering
-           %\hspace*{-20mm}
-           \includegraphics[scale=.6]{screenshot.png}
-           \caption{Frontend screenshot.}   
-           %\label{fig:timeseries_validation}
-        \end{figure}
     \end{block}
     
+
     \begin{block}{Outlook}
-        We are planning to further develop:
-        \begin{itemize}
-          \item A more advanced polygonal area selection
-          \item A flexible colorbar UI elements
-          \item A direct NetCDF caching
-          \item Implement a seamless connection to data APIs (e.g. FEMA, NOAA) 
-        \end{itemize}
+    We are planning to further develop:
+    \begin{itemize}
+  \item A more advanced polygonal area selection
+  \item A flexible colorbar UI elements
+  \item A direct NetCDF caching
+  \item Implement a seamless connection to data APIs (e.g. FEMA, NOAA) 
+\end{itemize}
+    
     \end{block}
 \end{column}
+
 
 \end{columns}
 
@@ -180,20 +192,5 @@
 \end{textblock}
 
 
-\begin{textblock}{0.5}(0.64, 0.9575)
-   \includegraphics[scale=.14]{logos/flask.png}
-\end{textblock}
-
-\begin{textblock}{0.5}(0.696, 0.9575)
-   \includegraphics[scale=.39]{logos/postgre_slonik_with_black_text_and_tagline.png}
-\end{textblock}
-
-\begin{textblock}{0.5}(0.78, 0.9575)
-   \includegraphics[scale=.2]{logos/leaflet-1-logo.png}
-\end{textblock}
-
-\begin{textblock}{0.5}(0.895, 0.9575)
-   \includegraphics[scale=.18]{logos/python.png}
-\end{textblock}
 \end{frame}
 \end{document}
